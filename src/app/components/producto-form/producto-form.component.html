@@ -1,0 +1,92 @@
+<!-- <div class="card">
+    <div class="card-header"> 
+        <h4>Crear Producto</h4>
+    </div>
+    <form action="">
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit(productoForm)" #productoForm="ngForm">
+                <div class="form-group">
+                    <label class="mx-2 my-2">Nombre: </label>
+                    <input type="text" name="nombre" class="form-control" [(ngModel)] = "producto.nombre">
+                </div>
+                <div class="form-group">
+                    <label class="mx-2 my-2">Cantidad: </label>
+                    <input type="number" name="cantidad" class="form-control" [(ngModel)] = "producto.cantidad">
+                </div>
+                <div class="form-group">
+                    <label class="mx-2 my-2">Precio: </label>
+                    <input type="number" name="precio" class="form-control" [(ngModel)] = "producto.precio">
+                </div>
+                <div class="my-2">
+                    <button 
+                    class="btn btn-success btn-sm" 
+                    type="submit">Guardar</button>
+                    <button 
+                    class="btn btn-secondary btn-sm my-2 mx-3" 
+                    type="button" (click)="clearForm(productoForm)">Limpiar</button>
+                </div>
+            </form>
+        </div>
+    </form>
+</div> -->
+
+    <div class="card card-dark bg-form-dark text-light">
+        <div class="card-header bg-form-header text-light d-flex justify-content-between align-items-center"> 
+            <h5 class="mb-0">{{ producto.id > 0 ? 'Editar Producto: ' + producto.nombre : 'Crear Producto' }} 
+            </h5>
+            <button type="button" class="btn-close btn-close-white" 
+        aria-label="Close" 
+        (click)="closeModalAndReset()"></button>
+            
+        </div>  
+        <div class="card-body">
+            <form (ngSubmit)="onSubmit(productoForm)" #productoForm="ngForm">
+                <div class="form-group mb-3">
+                    <label class="form-label">Nombre:</label>
+                    <input 
+                    type="text" 
+                    name="nombre" 
+                    class="form-control form-control-dark border-red"
+                    [(ngModel)] = "producto.nombre">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Descripción:</label>
+                    <textarea 
+                    class="form-control form-control-dark"
+                    name="descripcion"
+                    [(ngModel)] = "producto.descripcion"></textarea>
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Cantidad:</label>
+                    <input 
+                    type="text" 
+                    name="cantidad" 
+                    class="form-control form-control-dark" 
+                    [(ngModel)] = "producto.cantidad">
+                </div>
+                <div class="form-group mb-3">
+                    <label class="form-label">Precio:</label>
+                    <input 
+                    type="number"
+                    name="precio" 
+                    class="form-control form-control-dark"
+                    [(ngModel)] = "producto.precio">
+                </div>
+                <!-- <div class="form-group mb-3">
+                    <label class="form-label">Imagen URL:</label>
+                    <input type="url" class="form-control form-control-dark">
+                </div> -->
+                <div class="my-3 d-flex justify-content-end">
+                    <button 
+                    class="btn btn-success me-2" 
+                    type="submit">Guardar</button>
+                    <button 
+                    class="btn btn-secondary" 
+                    type="button" 
+                    (click)="clearForm(productoForm)">Limpiar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    

@@ -1,0 +1,262 @@
+<!-- <div class="container my-3">
+    <h3>Gestion de Productos</h3>
+    <button class="btn btn-primary my-2">Crear Producto</button>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Nombre</th>
+                        <th>Cantidad</th>
+                        <th>Precio</th>
+                        <th>Editar</th>
+                        <th>Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (producto of productos; track $index) {
+                        <tr>
+                            <td> {{producto.id}} </td>
+                            <td> {{producto.nombre}} </td>
+                            <td> {{producto.cantidad}} </td>
+                            <td> {{producto.precio}} </td>
+                            <td> <button 
+                                class="btn btn-warning btn-sm" 
+                                (click)="selectProductoEdit(producto)">
+                                Editar</button> </td>
+                            <td> <button 
+                                class="btn btn-danger btn-sm"
+                                (click)="deleteProducto(producto.id)">Eliminar</button> </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <producto-form 
+            [producto]="selectProducto"
+            (newProductoEventEmitter)="addProducto($event)">
+            
+            </producto-form>
+        </div>
+    </div>
+</div> -->
+
+<nav class="navbar navbar-dark bg-dark-custom shadow-sm p-3">
+    <div class="container-fluid">
+        <div class="d-flex align-items-center">
+            <button class="btn btn-link text-light me-3 p-0" type="button" (click)="toggleSidebar()">
+                <i class="fas fa-bars fa-lg"></i> 
+            </button>
+            <a class="navbar-brand konki-title" href="#">Sistema Gestión de Productos</a>
+        </div>
+
+        <div class="d-flex align-items-center">
+            <button class="btn btn-link text-light me-3 p-0"> 
+                <i class="fas fa-shopping-cart fa-lg"></i> 
+            </button>
+            
+            @if (!authService.isAuthenticated()) {
+                <button class="btn btn-link text-light me-2" (click)="openLogin()">
+                    <i class="fas fa-sign-in-alt me-1"></i> Iniciar Sesión
+                </button>
+            } @else {
+                <button class="btn btn-danger" (click)="logout()">
+                    <i class="fas fa-user-plus me-1"></i> Cerrar Sesión 
+                </button>
+            }
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex main-content-area">
+    <div [class.collapsed]="!isSidebarOpen" class="sidebar bg-sidebar-dark text-white p-3">
+        <h5 class="mb-4 sidebar-header">Opciones Admin</h5>
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" 
+                href="#"
+                (click)="seleccionarVista('productos')"
+                [class.active-link]="vista === 'productos'">
+                    <i class="fas fa-box-open me-2"></i> Productos
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-white sidebar-link" href="#">
+                    <i class="fas fa-clipboard-list me-2"></i> Pedidos
+                </a>
+            </li>
+            <li class="nav-item">
+                @if (authService.isAuthenticated()) {
+                    <a class="nav-link text-white sidebar-link" 
+                    href="#"
+                    (click)="seleccionarVista('usuarios')"
+                    [class.active-link]="vista === 'usuarios'">
+                        <i class="fas fa-users me-2"></i> Usuarios
+                    </a>
+                } @else {
+                    <span class="nav-link text-muted">
+                        <i class="fas fa-users me-2"></i> Usuarios (Login requerido)
+                    </span>
+                }
+            </li>
+        </ul>
+    </div>
+
+    <div class="content-wrapper p-4 flex-grow-1">
+        <div class="container-fluid">
+
+            @if (vista === 'productos') {
+                <div class="admin-title-line">
+                    <h3 class="text-light">Gestión de Productos</h3>
+                    @if (authService.isAuthenticated()) { 		
+                        <button class="btn btn-danger my-2" (click)="openForm()">Añadir Producto</button>
+                    }
+                </div>
+                
+                <div class="row">
+                    <div class="col-lg-7">
+                        <table class="table table-dark table-striped table-hover product-table">
+                            <thead>
+                                <tr>
+                                    <!-- <th style="width: 80px;">Imagen</th> 	-->
+                                    <th>Nombre</th>
+                                    <th>Descripción</th>
+                                    <th>Cantidad</th> 
+                                    <th>Precio</th>
+                                    <th class="text-center" style="width: 310px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (producto of productos; track $index) {
+                                    <tr>
+                                        <!-- <td><div class="image-placeholder"></div></td> -->
+                                        <td> {{producto.nombre}} </td>
+                                        <td> {{producto.descripcion}} </td>
+                                        <td> {{producto.cantidad}} </td>
+                                        <td> {{producto.precio}} </td>
+                                        <td class="text-center">
+                                            <button 
+                                                class="btn btn-info btn-sm me-1 mb-1 my-1" 
+                                                (click)="addToCart(producto)">
+                                                Añadir al Carrito
+                                            </button>
+                                            
+                                            @if(authService.isAuthenticated()){
+                                                <button 
+                                                class="btn btn-warning btn-sm me-1 mx-2 my-1" 
+                                                (click)="selectProductoEdit(producto)">Editar</button>
+                                                <button 
+                                                class="btn btn-danger btn-sm mx-2 my-1" 
+                                                (click)="deleteProducto(producto.id)">Eliminar</button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    @if (showForm) {
+                        <div class="col-lg-5">
+                            <producto-form 
+                            [producto]="selectProducto"
+                            (newProductoEventEmitter)="addProducto($event)"
+                            (closeFormEventEmitter)="showForm = false"
+                            (newCloseModalAndReset)="closeModalAndReset()">
+                            </producto-form>
+                        </div>
+                    }
+                </div>
+            }
+
+            @if (vista === 'usuarios' && authService.isAuthenticated()) {
+                <div class="admin-title-line">
+                    <h3 class="text-light">Gestión de Usuarios</h3>
+                    <button class="btn btn-danger my-2" (click)="openFormUsuario()">Añadir Usuario</button>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-7">
+                        <table class="table table-dark table-striped table-hover product-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nombre</th>
+                                    <th>Apellido</th>
+                                    <th>Email</th>
+                                    <th>Username</th>
+                                    <th class="text-center" style="width: 200px;">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (usuario of usuarios; track $index) {
+                                <tr>
+                                    <td> {{usuario.id}} </td>
+                                    <td> {{usuario.nombre}} </td>
+                                    <td> {{usuario.apellido}} </td>
+                                    <td> {{usuario.email}} </td>
+                                    <td> {{usuario.username}} </td>
+                                    <td class="text-center">
+                                        <button 
+                                            class="btn btn-warning btn-sm me-1 my-1"
+                                            (click)="selectUsuarioEdit(usuario)">Editar</button>
+                                        <button 
+                                            class="btn btn-danger btn-sm my-1"
+                                            (click)="deleteUsuario(usuario.id)">Eliminar</button>
+                                    </td>
+                                </tr>
+                                } @empty {
+                                    <tr>
+                                        <td colspan="6" class="text-center">No hay usuarios registrados.</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+
+                    @if (showFormUsuario) {
+                    <div class="col-lg-5">
+                        <app-usuario-form 
+                            [usuario]="selectUsuario" 
+                            (newUsuarioEventEmitter)="addUsuario($event)"
+                            (closeFormEventEmitter)="showFormUsuario = false"
+                            (newCloseModalAndReset)="closeModalAndResetUsuario()">
+                        </app-usuario-form>
+                    </div>
+                    }
+                </div>
+            } @else if (vista === 'usuarios' && !authService.isAuthenticated()) {
+                <div class="alert alert-warning text-center">
+                    <i class="fas fa-lock me-2"></i> Debe iniciar sesión para acceder a la Gestión de Usuarios.
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@if (showLoginModal) { 
+    <div class="modal fade show" tabindex="-1" style="display: block;" aria-modal="true" role="dialog"> 
+        <div class="modal-dialog modal-sm modal-dialog-centered">
+            <div class="modal-content bg-form-dark text-light">
+                
+                <div class="modal-body">
+                    <app-login (closeLogin)="closeLogin()"></app-login>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-backdrop fade show"></div> 
+}
+
+
+
+
+
+
+
+
