@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   imports: [FormsModule, CommonModule],
   templateUrl: './usuario-form.component.html'
 })
-export class UsuarioFormComponent implements OnInit{
+export class UsuarioFormComponent{
     @Input() usuario: Usuario = new Usuario();
     
     @Output() newUsuarioEventEmitter = new EventEmitter<Usuario>();
@@ -17,32 +17,17 @@ export class UsuarioFormComponent implements OnInit{
     @Output() closeFormEventEmitter = new EventEmitter<void>();
     
     @Output() newCloseModalAndReset = new EventEmitter<void>();
-    
-    ngOnInit(): void {
-        if (this.usuario.id <= 0) {
-            this.usuario.role = 'USER';
-        }
-    }
 
     onSubmit(usuarioForm: NgForm): void {
         if (usuarioForm.valid) {
-            let usuarioAEnviar: Usuario = { ...this.usuario };
-
-            if (usuarioAEnviar.id <= 0) {
-                usuarioAEnviar.role = 'USER';
-            } else {
-                usuarioAEnviar.password = undefined; 
-            }
-  
-            this.newUsuarioEventEmitter.emit(usuarioAEnviar);
-        }
+            this.newUsuarioEventEmitter.emit(this.usuario);
+        }
     }
 
     clearForm(usuarioForm: NgForm): void {
         usuarioForm.resetForm(); 
         
         this.usuario = new Usuario();
-        this.usuario.role = 'USER';
         
         this.closeFormEventEmitter.emit();
     }

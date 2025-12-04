@@ -138,8 +138,8 @@ export class ProductoComponent implements OnInit{
 
   addToCart(producto: any): void {
     console.log(`Producto añadido al carrito: ${producto.nombre}`);
-    
-    alert(`¡${producto.nombre} añadido al carrito!`);
+    // alert(`¡${producto.nombre} añadido al carrito!`);
+    alert('Aun falta implementar');
   }
 
   openFormUsuario() {
@@ -153,31 +153,63 @@ export class ProductoComponent implements OnInit{
     }
 
     addUsuario(usuario: Usuario): void {
-        if (usuario.id > 0) {
-            this.updateUsuario(usuario);
-            return;
-        }
-
-        this.usuarioService.create(usuario).subscribe(
-            newUsuario => {
-                this.usuarios = [...this.usuarios, newUsuario];
-                this.closeModalAndResetUsuario();
-            }
-        );
+    if (usuario.id > 0) {
+        this.updateUsuario(usuario);
+        return;
     }
 
+    console.log('Datos a enviar al backend:', usuario);
+    
+    this.usuarioService.create(usuario).subscribe({
+        next: (newUsuario) => {
+            console.log('Usuario creado exitosamente:', newUsuario);
+            this.usuarios = [...this.usuarios, newUsuario];
+            this.closeModalAndResetUsuario();
+        },
+        error: (err) => {
+            console.error('Error al crear usuario:', err);
+            
+            if (err.status === 403) {
+                alert('Error 403: No tienes permisos para crear usuarios. Verifica que estés autenticado como ADMIN.');
+            } else if (err.status === 401) {
+                alert('Error 401: Tu sesión expiró. Vuelve a iniciar sesión.');
+            } else {
+                alert('Error al crear usuario: ' + (err.error?.message || err.message));
+            }
+        }
+    });
+}
+
     selectUsuarioEdit(usuario: Usuario): void {
-        this.selectUsuario = { ...usuario };
-        this.selectUsuario.password = undefined; 
+        this.selectUsuario = {
+        id: usuario.id,
+        nombre: usuario.nombre,
+        apellido: usuario.apellido,
+        email: usuario.email,
+        username: usuario.username
+        // NO incluir password
+        };
         this.showFormUsuario = true;
     }
 
     updateUsuario(usuario: Usuario): void {
-        this.usuarioService.update(usuario).subscribe(updUsuario => {
-            this.usuarios = this.usuarios.map(u => 
-                u.id === updUsuario.id ? updUsuario : u
-            );
-            this.closeModalAndResetUsuario();
+        if (!usuario.id) {
+            console.error('Error: Usuario sin ID');
+            return;
+        }
+
+        this.usuarioService.update(usuario).subscribe({
+            next: (updUsuario) => {
+                this.usuarios = this.usuarios.map(u => 
+                    u.id === updUsuario.id ? updUsuario : u
+                );
+                this.closeModalAndResetUsuario();
+                console.log('Usuario actualizado con éxito:', updUsuario);
+            },
+            error: (err) => {
+                console.error('Error al actualizar usuario:', err);
+                alert('Error al actualizar usuario: ' + (err.error?.message || err.message));
+            }
         });
     }
 

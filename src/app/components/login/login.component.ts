@@ -23,31 +23,23 @@ export class LoginComponent {
   }
 
   onLogin(){
-    console.log("¡Se hizo clic! Intentando login...");
     this.errorMessage = null; 
 
     console.log("--- onLogin ejecutado con CLICK. Usuario:", this.credentials.username);
-    
-    // ⚠️ Prueba de Depuración (Descomenta esto para ver si el método se ejecuta)
-    // console.log("Ejecutando onLogin. Usuario:", this.credentials.username); 
 
     this.authService.login(this.credentials).subscribe({
       next: (response: any) => {
-        // Lógica de éxito: Si llegas aquí, el login fue CORRECTO.
         console.log("LOGIN EXITOSO:", response);
         const token = response.token; 
         
         if (token) {
           this.authService.saveToken(token);
-          this.closeLogin.emit(); // Cierra el modal
-          window.location.reload(); // Recarga la página para mostrar el contenido de Admin
+          this.closeLogin.emit(); 
+          window.location.reload(); 
         }
       },
       error: (err) => {
-        // Lógica de error: Si llegas aquí, falló por 401 (Credenciales) o Red.
-        console.error('ERROR EN LOGIN:', err); // ⚠️ MIRA ESTO EN LA CONSOLA
-        
-        // Muestra un mensaje al usuario
+        console.error('ERROR EN LOGIN:', err); 
         this.errorMessage = err.error?.message || 'Credenciales inválidas. Intente de nuevo.';
       }
     });

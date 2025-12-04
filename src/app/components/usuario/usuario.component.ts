@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './usuario.component.html'
 })
 export class UsuarioComponent implements OnInit{
-// --- Variables de Estado ---
+
     usuarios: Usuario[] = [];
     selectUsuario: Usuario = new Usuario();
     showForm: boolean = false; 
