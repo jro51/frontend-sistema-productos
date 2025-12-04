@@ -1,18 +1,16 @@
-/* Colores de la paleta (de la captura) */
+
 :root {
-    --konki-dark-bg: #1e1e1e; /* Fondo principal (El que se ve más oscuro) */
-    --konki-table-bg: #2d2d2d; /* Fondo de la tabla/contenedores internos */
-    --konki-sidebar-bg: #2d2d2d; /* Fondo de la barra lateral */
-    --konki-red: #e74c3c; /* Rojo de acción/énfasis */
+    --konki-dark-bg: #1e1e1e; 
+    --konki-table-bg: #2d2d2d; 
+    --konki-sidebar-bg: #2d2d2d; 
+    --konki-red: #e74c3c; 
     --konki-border: #444; 
 }
 
-/* Fondo principal */
 body {
     background-color: var(--konki-dark-bg); 
 }
 
-/* 1. NAVBAR SUPERIOR */
 .bg-dark-custom {
     background-color: var(--konki-dark-bg) !important;
     border-bottom: 1px solid var(--konki-border);
@@ -23,20 +21,19 @@ body {
     color: white;
 }
 
-/* 2. BARRA LATERAL (SIDEBAR) */
 .main-content-area {
-    min-height: calc(100vh - 72px); /* Altura de la ventana menos el navbar */
+    min-height: calc(100vh - 72px); 
 }
 
 .sidebar {
     background-color: var(--konki-sidebar-bg);
     width: 250px;
     transition: width 0.3s ease-in-out;
-    flex-shrink: 0; /* Evita que se encoja */
+    flex-shrink: 0; 
 }
 
 .sidebar.collapsed {
-    width: 0; /* Colapsado, invisible */
+    width: 0; 
     padding: 0 !important;
     overflow: hidden;
 }
@@ -48,16 +45,14 @@ body {
 }
 
 .sidebar-link:hover, .sidebar-link.active-link {
-    background-color: var(--konki-dark-bg); /* Resaltado al pasar el ratón o activo */
+    background-color: var(--konki-dark-bg); 
 }
 
-/* 3. ÁREA DE CONTENIDO */
 .content-wrapper {
     background-color: var(--konki-dark-bg); 
     overflow-x: auto;
 }
 
-/* Título de la Gestión (Gestion de Productos) */
 .admin-title-line {
     display: flex;
     justify-content: space-between;
@@ -67,7 +62,6 @@ body {
     padding-bottom: 5px;
 }
 
-/* Tabla de Productos */
 .product-table {
     border: 1px solid var(--konki-border);
     border-radius: 8px;
@@ -79,23 +73,22 @@ body {
 .image-placeholder {
     width: 50px;
     height: 50px;
-    background-color: #444; /* Fondo del cuadrado gris de la imagen */
+    background-color: #444; 
     border: 1px solid #666;
 }
 
-/* Formulario Crear/Editar */
 .bg-form-dark {
     background-color: var(--konki-table-bg) !important;
     border: 1px solid var(--konki-border);
 }
 
 .bg-form-header {
-    background-color: var(--konki-dark-bg) !important; /* El header del form es más oscuro */
+    background-color: var(--konki-dark-bg) !important; 
     border-bottom: 1px solid var(--konki-border);
 }
 
 .form-control-dark {
-    background-color: #444 !important; /* Inputs un poco más claros */
+    background-color: #444 !important; 
     color: white !important;
     border: 1px solid var(--konki-border) !important;
 }
@@ -105,7 +98,6 @@ body {
     box-shadow: 0 0 0 0.25rem rgba(231, 76, 60, 0.25) !important;
 }
 
-/* Borde rojo en input de Nombre (como en la captura) */
 .border-red {
     border: 1px solid var(--konki-red) !important;
 }
